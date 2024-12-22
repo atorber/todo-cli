@@ -1,1 +1,2 @@
 simple-term-menu
+PyYAML>=6.0
