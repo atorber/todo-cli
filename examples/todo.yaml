@@ -1,0 +1,18 @@
+# 单个待办事项
+- type: todo
+  title: "学习Python"
+  description: "完成Python基础教程学习"
+  deadline: "2024-01-31"
+
+# 工作任务
+- type: job
+  title: "项目开发"
+  description: "开发新功能"
+  priority: "high"
+  assignee: "张三"
+
+# 另一个待办事项
+- type: todo
+  title: "读书"
+  description: "阅读技术书籍"
+  deadline: "2024-02-15"

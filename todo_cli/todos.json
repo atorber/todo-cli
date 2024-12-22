@@ -1,0 +1,14 @@
+[
+    {
+        "title": "完成Python脚本",
+        "description": "编写一个CLI工具用于管理ToDo列表。",
+        "deadline": "2024-12-25",
+        "completed": false
+    },
+    {
+        "title": "准备年终总结",
+        "description": "撰写工作年终总结，并整理关键数据。",
+        "deadline": "2024-12-30",
+        "completed": false
+    }
+]
