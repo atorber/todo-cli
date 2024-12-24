@@ -1,2 +1,3 @@
 simple-term-menu
 PyYAML>=6.0
+websockets==10.4

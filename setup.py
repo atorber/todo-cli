@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="todo-cli",
-    version="0.2.5",
+    version="0.2.17",
     description="A simple CLI tool for managing ToDo lists",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -14,7 +14,8 @@ setup(
         "simple-term-menu",
         "click>=7.0",
         "click-completion>=0.5.2",
-        "PyYAML>=6.0"
+        "PyYAML>=6.0",
+        "websockets>=10.0"  # 添加 websockets 依赖
     ],
     entry_points={
         "console_scripts": [

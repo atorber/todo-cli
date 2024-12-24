@@ -330,3 +330,12 @@ $ todo list
 $ todo version
 todo 版本 1.0.0
 ```
+
+### WebSocket Shell 交互
+
+通过 exec 命令连接到远程 WebSocket Shell:
+```
+todo exec --wss wss://example.com/shell
+# 或
+todo exec -w wss://example.com/shell
+```

@@ -6,6 +6,8 @@ import click_completion
 import yaml
 from simple_term_menu import TerminalMenu # type: ignore
 import importlib.metadata
+import asyncio
+from .websocket_client import WebSocketShell
 from .objects import MANAGERS, Todo, Job
 
 try:
@@ -167,6 +169,53 @@ def complete(type, title):
     click.echo(f"未找到 {type} '{title}'")
 
 @cli.command()
+@click.argument('url', type=str)
+def wss(url):
+    """连接到WebSocket Shell"""
+    # 移除可能的引号
+    url = url.strip('"\'')
+    
+    if not url.startswith(('ws://', 'wss://')):
+        click.echo("URL必须以 ws:// 或 wss:// 开头")
+        return
+    
+    click.echo(f"正在连接到 {url}...")
+    shell = WebSocketShell(url)
+    
+    try:
+        asyncio.get_event_loop().run_until_complete(shell.connect())
+    except KeyboardInterrupt:
+        click.echo("\n连接已终止")
+    except Exception as e:
+        click.echo(f"发生错误: {str(e)}")
+
+@cli.command()
+@click.option('--wss', '-w', type=str, help='WebSocket服务器地址')
+def exec(wss):
+    """连接到WebSocket Shell执行操作 (类似 kubectl exec)"""
+    if not wss:
+        click.echo("请提供 WebSocket 服务器地址")
+        return
+
+    # 移除可能的引号
+    wss = wss.strip('"\'')
+    
+    if not wss.startswith(('ws://', 'wss://')):
+        click.echo("URL必须以 ws:// 或 wss:// 开头")
+        return
+    
+    click.echo(f"正在连接到 {wss}...")
+    click.echo("提示: 输入'exit'或按Ctrl+C退出连接")
+    
+    shell = WebSocketShell(wss)
+    try:
+        asyncio.get_event_loop().run_until_complete(shell.connect())
+    except KeyboardInterrupt:
+        click.echo("\n连接已终止")
+    except Exception as e:
+        click.echo(f"发生错误: {str(e)}")
+
+@cli.command()
 def version():
     """显示当前版本"""
     click.echo(f"todo {VERSION}")
@@ -183,12 +232,16 @@ def help():
     todo list TYPE [flags]
     todo complete TYPE TITLE
     todo delete TYPE TITLE
+    todo wss URL               连接WebSocket Shell
 
 对象类型 (TYPE):
     todo        待办事项
     job         工作任务
 
 示例:
+    # 连接WebSocket Shell
+    todo wss wss://example.com/shell
+
     # 从YAML文件创建任务
     todo create --file ./examples/tasks.yaml
     
